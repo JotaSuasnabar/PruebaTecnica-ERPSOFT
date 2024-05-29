@@ -1,0 +1,97 @@
+{
+    "patients": [
+      {
+        "id": 1,
+        "dni": "62775214",
+        "name": "Jose Suasnabar",
+        "birthdate": "1980-05-15",
+        "gender": "Masculino",
+        "followUp": true,
+        "treatmentHistory": [
+          {
+            "date": "2024-01-20",
+            "specialty": "Cardiología",
+            "doctor": "Dr. Martínez",
+            "reason": "Tratamiento para presión arterial alta"
+          },
+          {
+            "date": "2024-03-10",
+            "specialty": "Oftalmología",
+            "doctor": "Dr. Gómez",
+            "reason": "Control de la vista"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "dni": "71556842",
+        "name": "Lucia Asmat",
+        "birthdate": "1975-08-28",
+        "gender": "Femenino",
+        "followUp": false,
+        "treatmentHistory": [
+          {
+            "date": "2024-03-05",
+            "specialty": "Ginecología",
+            "doctor": "Dra. Sánchez",
+            "reason": "Tratamiento para menopausia"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "dni": "81934562",
+        "name": "Alejandro Ramírez",
+        "birthdate": "1992-11-03",
+        "gender": "Masculino",
+        "followUp": true,
+        "treatmentHistory": [
+          {
+            "date": "2024-04-15",
+            "specialty": "Dermatología",
+            "doctor": "Dra. Fernández",
+            "reason": "Tratamiento para acné"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "dni": "93478521",
+        "name": "Carolina López",
+        "birthdate": "1988-07-19",
+        "gender": "Femenino",
+        "followUp": true,
+        "treatmentHistory": [
+          {
+            "date": "2024-04-10",
+            "specialty": "Endocrinología",
+            "doctor": "Dr. Rodríguez",
+            "reason": "Control de tiroides"
+          },
+          {
+            "date": "2024-04-30",
+            "specialty": "Endocrinología",
+            "doctor": "Dr. Rodríguez",
+            "reason": "Control de tiroides"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "dni": "54782369",
+        "name": "Lucas Pérez",
+        "birthdate": "1970-03-25",
+        "gender": "Masculino",
+        "followUp": false,
+        "treatmentHistory": [
+          {
+            "date": "2024-5-28",
+            "specialty": "Endocrinología",
+            "doctor": "Dr. Rodríguez",
+            "reason": "Control de tiroides"
+          }
+        ]
+      }
+    ]
+  }
+  
