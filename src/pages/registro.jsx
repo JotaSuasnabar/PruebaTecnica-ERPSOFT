@@ -4,7 +4,6 @@ import { FaCheckCircle } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 
 const Registro = () => {
-
   const [patients, setPatients] = useState([]);
   const [formData, setFormData] = useState({
     patientDni: '',
@@ -22,12 +21,20 @@ const Registro = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleChangeDni = (e) => {
+    const { name, value } = e.target;
     const patient = patients.find(patient => patient.dni === value);
     const isFollowUp = patient ? patient.followUp : false;
-  
-    const followUp = isFollowUp ? "seguimiento" : "Sin seguimiento";
-    const icon = isFollowUp ? <FaCheckCircle size={20} className='text-green-500'/> : <IoMdCloseCircle size={24} className='text-red-500'/>;
-  
+
+    const followUp = isFollowUp ? "Seguimiento" : "Sin seguimiento";
+    const icon = isFollowUp ? <FaCheckCircle size={20} className='text-green-500' /> : <IoMdCloseCircle size={24} className='text-red-500' />;
+
     setFollowUpText(followUp);
     setFollowUpIcon(icon);
     setFormData(prevState => ({
@@ -39,14 +46,49 @@ const Registro = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Cita registrada');
+
+    const dateTimeParts = formData.dateTime.split('T');
+    const dateOnly = dateTimeParts[0];
+    
+    const newAppointment = {
+      date: dateOnly,
+      specialty: formData.specialty,
+      doctor: formData.doctor,
+      reason: formData.reason
+    };
+
+    setPatients(prevPatients => {
+      const patientIndex = prevPatients.findIndex(patient => patient.dni === formData.patientDni);
+      if (patientIndex >= 0) {
+        const updatedPatients = [...prevPatients];
+        updatedPatients[patientIndex].treatmentHistory.push(newAppointment);
+        return updatedPatients;
+      } else {
+        const newPatient = {
+          dni: formData.patientDni,
+          name: formData.patientName,
+          gender: formData.gender, 
+          followUp: formData.isFollowUp === 'seguimiento',
+          treatmentHistory: [newAppointment],
+        };
+        return [...prevPatients, newPatient];
+      }
+    });
+
     setFormData({
       patientDni: '',
       patientName: '',
       dateTime: '',
       specialty: '',
+      doctor: '',
+      reason: '',
       isFollowUp: false,
     });
+
+    setFollowUpText("");
+    setFollowUpIcon(null);
+
+    alert('Cita registrada');
   };
 
   return (
@@ -60,7 +102,7 @@ const Registro = () => {
               type="text"
               name="patientDni"
               value={formData.patientDni}
-              onChange={handleChange}
+              onChange={handleChangeDni}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 outline-none"
               required
             />
@@ -77,6 +119,14 @@ const Registro = () => {
             />
           </label>
           <label className="block mb-4">
+            <span className="text-white">Genero del Paciente:</span>
+            <select className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 outline-none" name="gender" onChange={handleChange} required>
+              <option value={formData.gender}>Masculino</option>
+              <option value={formData.gender}>Femenino</option>
+              <option value={formData.gender}>Sin definir</option>
+            </select>
+          </label>
+          <label className="block mb-4">
             <span className="text-white">Fecha y Hora:</span>
             <input
               type="datetime-local"
@@ -89,10 +139,37 @@ const Registro = () => {
           </label>
           <label className="block mb-4">
             <span className="text-white">Especialidad:</span>
+            <select className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 outline-none" name="specialty" onChange={handleChange} required>
+              <option value="Cardiologia">Cardiología</option>
+              <option value="Oftalmología">Oftalmología</option>
+              <option value="Pediatría">Pediatría</option>
+              <option value="Ginecología">Ginecología</option>
+              <option value="Neurología">Neurología</option>
+              <option value="Dermatología">Dermatología</option>
+              <option value="Psicología">Psicología</option>
+              <option value="Nutrición">Nutrición</option>
+              <option value="Traumatología">Traumatología</option>
+            </select>
+          </label>
+          <label className="block mb-4">
+            <span className="text-white">Doctor:</span>
+            <select className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 outline-none" name="doctor" onChange={handleChange} required>
+              <option value="Dr. Juan Perez">Dr. Juan Perez</option>
+              <option value="Dra. Maria Rodriguez">Dra. Maria Rodriguez</option>
+              <option value="Dr. Carlos Sanchez">Dr. Carlos Sanchez</option>
+              <option value="Dra. Laura Gomez">Dra. Laura Gomez</option>
+              <option value="Dr. Jose Ramirez">Dr. Jose Ramirez</option>
+              <option value="Dra. Ana Martinez">Dra. Ana Martinez</option>
+              <option value="Dr. Luis Torres">Dr. Luis Torres</option>
+              <option value="Dra. Sofia Lopez">Dra. Sofia Lopez</option>
+            </select>
+          </label>
+          <label className="block mb-4">
+            <span className="text-white">Razon:</span>
             <input
               type="text"
-              name="specialty"
-              value={formData.specialty}
+              name="reason"
+              value={formData.reason}
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 outline-none"
               required
@@ -145,7 +222,6 @@ const Registro = () => {
         </div>
       </div>
     </div>
-    
   );
 };
 
